@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webbok</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="roof">
+        <h1 class="title">WEBBOOK</h1>
+    </div>
+    <div class="main">
+        <div class="sections">
+            <nav id="col">
+                <a href="{{ url_for('index') }}">Главная</a>
+                <a href="{{ url_for('cart') }}">Корзина</a>
+            </nav>
+        </div>
+        <div class="products">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <div class="basement">
+        <h5>Автор: Бутова Анна</h5>
+        <h5>Email: **************@gmail.com</h5>
+        <h5>Телефон: *(***)***-**-**</h5>
+        <h6>И всякая другая контактная информация</h6>
+    </div>
+</body>
+</html>

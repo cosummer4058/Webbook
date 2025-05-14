@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Наши товары</h1>
+<div class="products">
+    {% for product in products %}
+    <div class="product">
+        <h3>{{ product.name }}</h3>
+        <p>Цена: {{ product.price }} руб.</p>
+        <a href="{{ url_for('product', id=product.id) }}">Подробнее</a>
+        <a href="{{ url_for('add_to_cart', id=product.id) }}">В корзину</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
