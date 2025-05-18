@@ -28,7 +28,6 @@ class User(SqlAlchemyBase, UserMixin):
                              unique=True, nullable=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    # Исправленная связь (было 'user_id', должно быть 'user')
     orders = orm.relationship('Order', back_populates='user')
 
     def set_password(self, password):
@@ -46,7 +45,6 @@ class Order(SqlAlchemyBase):
     total = sqlalchemy.Column(sqlalchemy.Numeric(10, 2), nullable=False)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
 
-    # Связи
     user = orm.relationship('User', back_populates='orders')
     items = orm.relationship('OrderItem', back_populates='order')
 
@@ -63,6 +61,5 @@ class OrderItem(SqlAlchemyBase):
     quantity = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     product_price = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
 
-    # Связи
     order = orm.relationship('Order', back_populates='items')
     product = orm.relationship('Product', back_populates='order_items')

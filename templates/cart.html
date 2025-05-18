@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Ваша корзина</h1>
+
+    {% if not cart_items %}
+        <div class="alert alert-info">Ваша корзина пуста</div>
+    {% else %}
+        <div class="row">
+            <!-- Список товаров -->
+            <div class="col-md-8">
+                {% for item in cart_items %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            {% if item.product.image %}
+                            <img src="{{ url_for('static', filename='uploads/' + item.product.image) }}"
+                                 class="img-fluid rounded-start"
+                                 alt="{{ item.product.name }}">
+                            {% else %}
+                            <div class="no-image-placeholder">
+                                <i class="fas fa-image fa-5x"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Цена: {{ item.product.price }} ₽ × {{ item.quantity }} =
+                                        <strong>{{ item.subtotal }} ₽</strong>
+                                    </small>
+                                </p>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="quantity-controls">
+                                        <form action="{{ url_for('update_cart', product_id=item.product.id) }}" method="post" class="d-inline">
+                                            <div class="input-group" style="width: 120px;">
+                                                <input type="number" name="quantity"
+                                                       value="{{ item.quantity }}" min="1"
+                                                       class="form-control form-control-sm">
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <a href="{{ url_for('remove_from_cart', product_id=item.product.id) }}"
+                                       class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Удалить
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Итоговая сумма -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Итого</h5>
+                        <h4 class="text-primary">{{ total }} ₽</h4>
+                        <a href="{{ url_for('checkout') }}" class="btn btn-primary w-100 mt-3">
+                            Оформить заказ
+                        </a>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary w-100 mt-2">
+                            Продолжить покупки
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
